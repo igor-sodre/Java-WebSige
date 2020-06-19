@@ -1,0 +1,36 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:form>
+        <h1>Menu</h1>
+        <dl>
+            <dt><h:commandLink value="Home" 
+                     action="home?faces-redirect=true"/></dt>
+            <dt><h:commandLink value="Usuario" 
+                     action="consUsuario?faces-redirect=true"/></dt>
+            <dt><h:commandLink value="Cidade" 
+                     action="consCidade?faces-redirect=true"/></dt>
+            <dt><h:commandLink value="Cliente" 
+                     action="consCliente?faces-redirect=true"/></dt>
+            <dt><h:commandLink value="Produto" 
+                     action="consProduto?faces-redirect=true"/></dt>
+            <dt><h:commandLink value="Fornecedor" 
+                     action="consFornecedor?faces-redirect=true"/></dt>
+            
+             <dt><h:commandLink value="Vendas" 
+                     action="consVenda?faces-redirect=true"/></dt>
+            
+            
+            
+            
+            <dt><h:commandLink value="Sair" 
+                               action="#{loginMBean.sair()}"/></dt>
+            
+            
+            
+        </dl>
+    </h:form>
+
+</ui:composition>
+

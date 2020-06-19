@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+<div id="dvHome">
+        <h:form>     
+            
+            
+            <h:panelGrid>
+                <p:commandButton value="Novo" 
+                                 action="#{vendaMBean.botaoNovo()}" />
+                
+            </h:panelGrid>
+            <h:panelGrid>
+                <h:messages/>
+            </h:panelGrid>
+            <h:panelGrid columns="2">                
+                Cliente
+                <p:inputText id="iTxtCliente" size="50" value="#{vendaMBean.nomeClientePesquisar}">
+                   
+                    <f:ajax listener="#{vendaMBean.botaoPesquisar}" execute="ajaxI" event="keyup"  render="dtVenda"/>
+                </p:inputText>
+                
+                 Data Venda
+                <h:panelGroup>                   
+                    <p:inputText id="iTxtDataVendaInicio" size="10" value="#{vendaMBean.dataVendaInicio}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR"/>
+                    </p:inputText>
+                    
+                    Até
+                    <p:inputText id="iTxtDataVendaFim" size="10" value="#{vendaMBean.dataVendaFim}" >
+                        <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR"/>
+                    </p:inputText>
+                    
+                </h:panelGroup>    
+                 
+                 
+
+
+
+            </h:panelGrid>
+
+            <h:panelGrid>
+
+                <h:dataTable id="dtVenda" value = "#{vendaMBean.listaVenda}" 
+                             var = "venda"
+                             styleClass = "tabela"
+                             headerClass = "tabelaCabecalho"
+                             columnClasses="tabelaColunaId,tabelaColuna250px,
+                             tabelaColuna250px,tabelaColuna150px, tabelaColunaAcoes"
+                             rowClasses = "tabelaLinha1,tabelaLinha2">
+                    <h:column>    				
+                        <f:facet name = "header">ID</f:facet>    				
+                            #{venda.id}
+                    </h:column>
+                    <h:column>    				
+                        <f:facet name = "header">Cliente</f:facet>    				
+                            #{venda.cliente.nome}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name = "header">Data</f:facet>
+                        <h:outputText value="#{venda.dataVenda}"  >
+                            <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR"/>
+                        </h:outputText>
+                    </h:column>
+
+
+                    <h:column>
+                        <f:facet name = "header">valor</f:facet>
+                        <h:outputText value="    #{venda.valorTotal}">
+                            <f:convertNumber pattern="#0.00" locale="pt_BR"/>
+                        </h:outputText>
+
+                    </h:column>
+
+
+                    <h:column>
+                        <f:facet name = "header">Ações</f:facet>
+                        <p:commandButton value="Edit" action="#{vendaMBean.botaoEditar()}">
+                            <f:setPropertyActionListener  value="#{venda}" target="#{vendaMBean.venda}" /> 
+                        </p:commandButton>
+                        <p:commandButton value="Del" action="#{vendaMBean.botaoExcluir()}" >
+                            <f:setPropertyActionListener value="#{venda}" target="#{vendaMBean.venda}"/>
+                        </p:commandButton>
+                    </h:column>
+                </h:dataTable>
+            </h:panelGrid>
+
+        </h:form>
+</div>
+    </ui:define>
+
+</ui:composition>

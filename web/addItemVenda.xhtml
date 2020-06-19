@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <div id="dvHome">
+        <h:form>
+            <h1>Adicionar Item</h1>
+            <br/>
+          
+              <h:panelGrid columns="2" id="pGItemVenda"> 
+
+                Codigo/Ean
+                <h:panelGroup>
+                    <p:inputText id="iTxtCodigoEAN" size="15" value="#{vendaMBean.idProdutoPesquisar}">
+
+                        <f:ajax listener="#{vendaMBean.pesquisarProduto}" execute="iTxtCodigoEAN" event="blur"  render="pGItemVenda"/>
+
+                    </p:inputText>
+                   
+                </h:panelGroup>
+                Produto
+                <p:inputText id="iTxtProduto" size="50" readonly="true" value="#{vendaMBean.itemVendaSelecionado.produto.nomeProduto}" />
+                Unidade De Medida
+                <h:panelGroup>
+                    <p:inputText id="iTxtuUnidadeMedida" size="10" readonly="true" value="#{vendaMBean.itemVendaSelecionado.produto.unidadedeMedida.simbolo}" />
+                    Quantidade 
+                    <p:inputText id="iTxtQtde" size="5" value="#{vendaMBean.itemVendaSelecionado.quantidade}" >
+                        <f:ajax listener="#{vendaMBean.calcularValorTotalItem()}" execute="iTxtQtde" event="blur"  render="iTxtValorTotal"/>
+                    </p:inputText>
+                    Valor Unit.
+                    <p:inputText id="iTxtValorUnit" size="10" readonly="true" value="#{vendaMBean.itemVendaSelecionado.valor}"/>
+
+                    Valor total
+                    <p:inputText id="iTxtValorTotal" size="10" readonly="true" value="#{vendaMBean.itemVendaSelecionado.valorTotal}"/>
+                    
+                  
+
+
+                </h:panelGroup>
+                <p:commandButton  value="Adicionar" action="#{vendaMBean.addItemVenda()}">
+
+                        
+                    </p:commandButton>
+
+            </h:panelGrid>
+        </h:form> 
+        </div>
+    </ui:define>
+
+</ui:composition>

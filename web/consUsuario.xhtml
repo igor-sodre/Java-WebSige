@@ -1,0 +1,75 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+             <div id="dvHome">   
+        <h:form>            
+            <h:panelGrid>
+                <p:commandButton value="Novo Usuario" 
+                                 action="#{usuarioMBean.botaoNovo()}"/>
+            </h:panelGrid>
+            <h:panelGrid columns="3">                
+                Nome
+                 <p:inputText id="iTxtValorPesquisar" size="20" value="#{usuarioMBean.valorPesquisar}">
+                     
+                    <f:ajax listener="#{usuarioMBean.botaoPesquisar()}" execute="iTxtValorPesquisar" render="dtUsuario" event="keyup"/>
+                    
+                    
+                    
+                 </p:inputText>
+                <p:commandButton value="Pesquisar" action="#{usuarioMBean.botaoPesquisar()}"/>
+            </h:panelGrid>
+            
+            <h:panelGrid>
+
+                <h:dataTable id="dtUsuario" value = "#{usuarioMBean.listaUsuario}" 
+                             var = "usuario"
+                             styleClass = "tabela"
+                             headerClass = "tabelaCabecalho"
+                             columnClasses="tabelaColunaId,tabelaColuna250px,
+                             tabelaColuna250px,tabelaColuna150px, tabelaColunaAcoes"
+                             rowClasses = "tabelaLinha1,tabelaLinha2">
+                    <h:column>    				
+                        <f:facet name = "header">ID</f:facet>    				
+                            #{usuario.id}
+                    </h:column>
+                    <h:column>    				
+                        <f:facet name = "header">Name</f:facet>    				
+                            #{usuario.nome}
+                        
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name = "header">E-mail</f:facet>
+                            #{usuario.email}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name = "header">User Name</f:facet>
+                            #{usuario.userName}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name = "header">Ações</f:facet>
+                        <p:commandButton value="Edit" action="#{usuarioMBean.botaoEditar()}">
+                            <f:setPropertyActionListener  value="#{usuario}" target="#{usuarioMBean.usuario}" /> 
+                        </p:commandButton>
+                        <p:commandButton value="Del" action="#{usuarioMBean.botaoExcluir()}" >
+                            <f:setPropertyActionListener value="#{usuario}" target="#{usuarioMBean.usuario}"/>
+                        </p:commandButton>
+                    </h:column>
+                </h:dataTable>
+            </h:panelGrid>
+            
+        </h:form>
+             </div>
+      </ui:define>
+
+</ui:composition>

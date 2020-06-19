@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <div id="dvHome">
+            <h:form>            
+                <h:panelGrid>
+                    <p:commandButton value="Novo Produto" 
+                                     action="#{produtoMBean.botaoNovo()}"/>
+                </h:panelGrid>
+                <h:panelGrid columns="3">                
+                    Nome
+                    <p:inputText size="20" value="#{produtoMBean.valorPesquisar}">
+                    </p:inputText>
+
+                    <f:ajax listener="#{produtoMBean.botaoPesquisar()}" execute="vrau123" render="iTxtValorPesquisar" event="keyup"/>
+                    
+                </h:panelGrid>
+
+                <h:panelGrid>
+
+                    <h:dataTable id="iTxtValorPesquisar" value = "#{produtoMBean.listaProduto}" 
+                                 var = "produto"
+                                 styleClass = "tabela"
+                                 headerClass = "tabelaCabecalho"
+                                 columnClasses="tabelaColunaId,tabelaColuna250px,
+                                 tabelaColuna250px,tabelaColuna150px, tabelaColunaAcoes"
+                                 rowClasses = "tabelaLinha1,tabelaLinha2">
+                        <h:column>    				
+                            <f:facet name = "header">ID</f:facet>    				
+                                #{produto.id}
+                        </h:column>
+                        <h:column>    				
+                            <f:facet name = "header">Nome do Produto</f:facet>    				
+                                #{produto.nomeProduto}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name = "header">Estoque</f:facet>
+                                #{produto.estoque}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name = "header">Valor</f:facet>
+                                #{produto.valor}
+                        </h:column>
+
+                        <h:column>
+                            <f:facet name = "header">Ações</f:facet>
+                            <p:commandButton value="Edit" action="#{produtoMBean.botaoEditar()}">
+                                <f:setPropertyActionListener  value="#{produto}" target="#{produtoMBean.produto}" /> 
+                            </p:commandButton>
+                            <p:commandButton value="Del" action="#{produtoMBean.botaoExcluir()}" >
+                                <f:setPropertyActionListener value="#{produto}" target="#{produtoMBean.produto}"/>
+                            </p:commandButton>
+                        </h:column>
+                    </h:dataTable>
+                </h:panelGrid>
+
+            </h:form>
+        </div>
+    </ui:define>
+
+</ui:composition>

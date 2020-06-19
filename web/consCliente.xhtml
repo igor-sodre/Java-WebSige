@@ -1,0 +1,71 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <div id="dvHome">
+                
+        <h:form>            
+            <h:panelGrid>
+                <p:commandButton value="Novo Cliente" 
+                                 action="#{clienteMBean.botaoNovo()}"/>
+            </h:panelGrid>
+            <h:messages showSummary="false" showDetail="true" />
+            <h:panelGrid columns="3">                
+                Nome
+                <p:inputText id="iTxTcarregarCliente" size="20" value="#{clienteMBean.valorPesquisar}">
+                    <f:ajax listener="#{clienteMBean.botaoPesquisar}" execute="iTxTcarregarCliente" render="dtCliente" event="keyup"/>
+                </p:inputText>
+                
+                
+            </h:panelGrid>
+           
+            
+            <h:panelGrid>
+
+                <h:dataTable id="dtCliente" value = "#{clienteMBean.listaCliente}" 
+                             var = "cliente"
+                             styleClass = "tabela"
+                             headerClass = "tabelaCabecalho"
+                             columnClasses="tabelaColunaId,tabelaColuna250px,
+                             tabelaColuna250px,tabelaColuna150px, tabelaColunaAcoes"
+                             rowClasses = "tabelaLinha1,tabelaLinha2">
+                    <h:column>    				
+                        <f:facet name = "header">ID</f:facet>    				
+                            #{cliente.id}
+                    </h:column>
+                    <h:column>    				
+                        <f:facet name = "header">Name</f:facet>    				
+                            #{cliente.nome}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name = "header">E-mail</f:facet>
+                            #{cliente.email}
+                    </h:column>
+
+                    
+                    <h:column>
+                        <f:facet name = "header">Ações</f:facet>
+                        
+                        <p:commandButton value="Edit" action="#{clienteMBean.botaoEditar()}">
+                            <f:setPropertyActionListener  value="#{cliente}" target="#{clienteMBean.cliente}" /> 
+                        </p:commandButton>
+                        <p:commandButton value="Del" action="#{clienteMBean.botaoExcluir()}"  >
+                            <f:setPropertyActionListener value="#{cliente}" target="#{clienteMBean.cliente}"/>
+                        </p:commandButton>
+                    </h:column>
+                </h:dataTable>
+            </h:panelGrid>
+            
+        </h:form>
+        </div>
+      </ui:define>
+
+</ui:composition>

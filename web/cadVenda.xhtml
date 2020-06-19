@@ -1,0 +1,130 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+
+    <ui:define name="content">
+        <h:form>
+            <h1>Emissão de Vendas</h1>
+            <br/>
+            <h:messages />
+
+            <h:panelGrid columns="2" >
+                Numero
+                <h:panelGroup>
+                    <p:inputText id="iTxtId" size="10" value="#{vendaMBean.venda.id}" readonly="true"/>
+
+                    Data
+                    <p:inputText id="iTxtDataVenda" size="10" value="#{vendaMBean.venda.dataVenda}" readonly="true">
+                        <f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR"/>
+                    </p:inputText>
+
+                    Valor Total
+                    <p:inputText id="iTxtValorTotalVenda" size="15" value="#{vendaMBean.venda.valorTotal}" readonly="true">
+                        <f:convertNumber pattern="#0.00" locale="pt_BR"/>
+
+                    </p:inputText>
+                </h:panelGroup>
+
+
+                Cliente 
+                <h:panelGroup id="pGCliente">
+
+
+                    <p:inputText id="iTxtCpfCnpj" size="20" value="#{vendaMBean.cpfCnpjPesquisar}" >
+                        <f:ajax listener="#{vendaMBean.pesquisarCliente}" execute="iTxtCpfCnpj" event="blur"  render="@form"/>
+                    </p:inputText>
+
+                    <p:commandButton value="Buscar"/>
+
+
+                    <p:inputText id="iTxtNome" size="50" value="#{vendaMBean.venda.cliente.nome}" readonly="true" />
+
+
+                </h:panelGroup>
+
+            </h:panelGrid>
+            <hr/>
+
+            <p:commandButton  value="Adicionar Item" action="#{vendaMBean.botaoAddItemVendaNav}"/>
+
+            <hr/>
+            <h:panelGrid>
+
+                <h:dataTable id="dtVenda" value = "#{vendaMBean.venda.itens}" 
+                             var = "itemVenda"
+                             styleClass = "tabela"
+                             headerClass = "tabelaCabecalho"
+                             columnClasses="tabelaColunaId,tabelaColuna250px,
+                             tabelaColuna250px,tabelaColuna150px, tabelaColunaAcoes"
+                             rowClasses = "tabelaLinha1,tabelaLinha2">
+                    <h:column>    				
+                        <f:facet name = "header">ID</f:facet>    				
+                            #{itemVenda.produto.id}
+                    </h:column>
+                    <h:column>    				
+                        <f:facet name = "header">Produto</f:facet>    				
+                            #{itemVenda.produto.nomeProduto}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name = "header">Unidade Medida</f:facet>
+                            #{itemVenda.produto.unidadedeMedida.simbolo}
+                    </h:column>
+                    <h:column>
+
+                        <f:facet name = "header">Quantidade</f:facet>
+                        <h:outputText value="#{itemVenda.quantidade}" >
+                            <f:convertNumber pattern="#0.000" locale="pt_BR"/>
+                        </h:outputText>
+                    </h:column>
+
+
+                    <h:column>
+                        <f:facet name = "header">valor Unit.</f:facet>
+                        <h:outputText value="#{itemVenda.valor}">
+                            <f:convertNumber pattern="#0.00" locale="pt_BR"/>
+                        </h:outputText>      
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name = "header">valor Total</f:facet>
+                        <h:outputText value="#{itemVenda.valorTotal}">
+                                      <f:convertNumber pattern="#0.00" locale="pt_BR"/> 
+                        </h:outputText>
+                    </h:column>
+
+
+                    <h:column>
+                        <f:facet name = "header">Ações</f:facet>
+                        <p:commandButton id="cBtnEditarItemVenda" value="Edit" action="#{vendaMBean.botaoEditarItem()}">
+                            <f:setPropertyActionListener  value="#{itemVenda}" target="#{vendaMBean.itemVendaSelecionado}" /> 
+                           
+                        </p:commandButton>
+                        <p:commandButton value="Del" action="#{vendaMBean.botaoExcluirItem()}" >
+                            <f:setPropertyActionListener value="#{itemVenda}" target="#{vendaMBean.itemVendaSelecionado}"/>
+                            <f:ajax id="cBtnExcluirItemVenda" listener="#{vendaMBean.botaoExcluirItem()}" event="click" render="@all"/>
+                        </p:commandButton>
+                    </h:column>
+                </h:dataTable>
+            </h:panelGrid>
+
+
+
+
+
+
+            <h:panelGrid columns="2">
+                <p:commandButton value="Salvar" action="#{vendaMBean.botaoSalvar()}" />
+                <p:commandButton value="Pesquisar" action="consVenda?faces-redirect=true" />
+            </h:panelGrid>
+
+        </h:form>   
+        
+    </ui:define>
+
+</ui:composition>

@@ -1,0 +1,58 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                template="./template.xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:p="http://primefaces.org/ui">
+   
+   
+    <ui:define name="content">
+        <h:form id="form">
+            <h1>Cadastro de Cliente</h1>
+            <br/>
+            <h:messages/>
+            <h:panelGrid columns="2">
+                Id
+                <p:inputText id="iTxtId" size="10" value="#{clienteMBean.cliente.id}" readonly="true"/>
+                Nome                
+                <p:inputText id="iTxtNome" size="50" value="#{clienteMBean.cliente.nome}"/>                
+                CPF/CNPJ
+                <h:panelGroup>
+                    <p:inputText id="iTxtCpfCnpj"  size="15" maxlength="14" value="#{clienteMBean.cliente.cpfCnpj}"/>                        
+                    R.G.
+                    <p:inputText id="iTxtRG" size="15" value="#{clienteMBean.cliente.rgInscEstadual}"/>
+                </h:panelGroup>
+                Data Nasc.
+                <p:inputText id="iTxtDataNascimento"  size="10" value="#{clienteMBean.cliente.dataNascimento}">
+                    <f:convertDateTime locale="pt_BR" pattern="dd/MM/yyyy"/>
+                </p:inputText>
+                E-Mail
+                <p:inputText id="iTxtEmail" size="50" value="#{clienteMBean.cliente.email}"/>
+                Telefone
+                <p:inputText id="iTxtTelefone" size="15" value="#{clienteMBean.cliente.telefone}"/>            
+                Celular
+                <p:inputText id="iTxtCelular" size="15" value="#{clienteMBean.cliente.celular}"/>            
+                Cidade
+                <h:selectOneMenu id="sMnCidade" value="#{clienteMBean.cliente.cidade}" converter="#{clienteMBean.cidadeConverter}">                     
+                    <f:selectItems value="#{clienteMBean.listaCidade}" var="cidade"
+                                   itemValue="#{cidade}" itemLabel="#{cidade.nome}"/>
+                </h:selectOneMenu>
+                Bairro
+                <p:inputText id="iTxtBairro" size="50" value="#{clienteMBean.cliente.bairro}"/>
+                Enderco
+                <p:inputText id="iTxtEndereco" size="50" value="#{clienteMBean.cliente.endereco}"/>
+                Cep
+                <p:inputText id="iTxtCep" size="10" value="#{clienteMBean.cliente.cep}"/>
+
+            </h:panelGrid>
+            <h:panelGrid >
+                <p:commandButton value="Salvar" action="#{clienteMBean.botaoSalvar()}"/>
+            </h:panelGrid>
+
+
+        </h:form>            
+    </ui:define>
+
+</ui:composition>
